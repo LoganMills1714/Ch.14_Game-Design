@@ -12,6 +12,7 @@ trooper_scale = 0.1
 trooper_count = 40
 SW = 800
 SH = 600
+SP = 4
 
 
 class Player(arcade.Sprite):
@@ -21,7 +22,26 @@ class Player(arcade.Sprite):
         self.explosion_sound = arcade.load_sound("sounds/explosion.wav")
 
     def update(self):
-        pass
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        if self.left <= 0:
+            self.left = 0
+            arcade.play_sound(self.explosion_sound)
+            self.change_x = 0
+        if self.right >= SW:
+            self.right = SW
+            arcade.play_sound(self.explosion_sound)
+            self.change_x = 0
+        if self.bottom <= 0:
+            self.bottom = 0
+            arcade.play_sound(self.explosion_sound)
+            self.change_y = 0
+        if self.top >= SH:
+            self.top = SH
+            arcade.play_sound(self.explosion_sound)
+            self.change_y = 0
+
 
 
 class Trooper(arcade.Sprite):
@@ -41,7 +61,6 @@ class MyGame(arcade.Window):
         super().__init__(SW, SH, title)
         arcade.set_background_color(arcade.color.SKY_BLUE)
         self.set_mouse_visible(False)
-        self.score = 0
 
     def reset(self):
         # Create sprite lists
@@ -49,7 +68,7 @@ class MyGame(arcade.Window):
         self.trooper_list = arcade.SpriteList()
 
         # Initiate the score
-
+        self.score = 0
 
         # Create player
         self.bb8 = Player()
@@ -85,11 +104,21 @@ class MyGame(arcade.Window):
         if len(self.trooper_list) == 0:
             self.reset()
 
-    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
-        self.bb8.center_x = x
-        self.bb8.center_y = y
+    def on_key_press(self, key, modifiers: int):
+        if key == arcade.key.A:
+            self.bb8.change_x = -SP
+        elif key == arcade.key.D:
+            self.bb8.change_x = SP
+        elif key == arcade.key.S:
+            self.bb8.change_y = -SP
+        elif key == arcade.key.W:
+            self.bb8.change_y = SP
 
-
+    def on_key_release(self, key, modifiers: int):
+        if key == arcade.key.A or key == arcade.key.D:
+            self.bb8.change_x = 0
+        elif key == arcade.key.W or key == arcade.key.S:
+            self.bb8.change_y = 0
 
 # -----Main Function--------
 def main():
