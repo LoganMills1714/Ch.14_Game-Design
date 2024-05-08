@@ -22,6 +22,19 @@ import arcade
 SW = 800
 SH = 600
 
+class Fruit():
+    def __init__(self, texture_list):
+        super().__init__("/Final")
+        self.textures = texture_list
+        self.current_texture = 0
+
+    def update(self):
+        self.current_texture += 1
+        if self.current_texture < len(self.textures):
+            self.set_texture(self.current_texture)
+        else:
+            self.kill()
+
 #------MyGame Class--------------
 class MyGame(arcade.Window):
 

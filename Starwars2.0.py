@@ -7,8 +7,8 @@ import arcade
 import math
 
 # --- Constants ---
-BB8_scale = 0.3
-trooper_scale = 0.1
+BB8_scale = 0.17
+trooper_scale = 0.085
 bullet_scale = 0.8
 SW = 800
 SH = 600
@@ -26,8 +26,8 @@ b_score = 1
 1-3 = Gameplay
 4+ = Game Over
 '''
-trooper_count = [0, 1, 2, 3]
-levels = 3
+trooper_count = [0, 2, 4, 8]
+levels = len(trooper_count)
 
 EXPLOSION_TEXTURE_COUNT = 50
 
@@ -48,7 +48,7 @@ class Explosion(arcade.Sprite):
 
 class Player(arcade.Sprite):
     def __init__(self):
-        super().__init__("Images/bb8.png", BB8_scale)
+        super().__init__("Images/millenium-falcon.png", BB8_scale)
         self.laser_sound = arcade.load_sound("sounds/laser.wav")
         self.explosion = arcade.load_sound("sounds/explosion.wav")
         self.speed = 0
@@ -73,7 +73,7 @@ class Player(arcade.Sprite):
 
 class Trooper(arcade.Sprite):
     def __init__(self):
-        super().__init__("Images/stormtrooper.png", trooper_scale)
+        super().__init__("Images/tie fighter.png", trooper_scale)
         self.w = int(self.width)
         self.h = int(self.height)
         self.dx = random.randrange(-1, 2, 2)
@@ -180,7 +180,7 @@ class MyGame(arcade.Window):
         arcade.start_render()
         if self.current_level == 0:
             arcade.draw_rectangle_filled(SW/2, SH/2, SW, SH, arcade.color.BLACK)
-            arcade.draw_text("Use W to move forwards and A and D to steer BB8 left and right and Space to shoot. Press R to play", SW/2, SH/2 + 30, arcade.color.YELLOW, 14, 400, anchor_x="center")
+            arcade.draw_text("Use A and D to move BB8 left and right and Space to shoot. Press R to play", SW/2, SH/2 + 30, arcade.color.YELLOW, 14, 400, anchor_x="center")
 
         elif not self.gameOver:
             arcade.draw_texture_rectangle(SW/2, SH/2, SW, SH, self.background)
